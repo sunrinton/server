@@ -1,2 +1,2 @@
-web: gunicorn run:app -b localhost:80
+web: gunicorn run:app 
 
