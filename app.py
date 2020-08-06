@@ -7,7 +7,7 @@ def fav():
     
 @app.route('/')
 def index():
-    return 'Hello Flask'
+    return 'Sunrinton Backend'
 if __name__=='main':
     print('run Server')
     app.run(host='0.0.0.0',port=3000, debug=True) 
