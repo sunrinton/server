@@ -1,3 +1,3 @@
-web: gunicorn app:app -b localhost:8000
+web: gunicorn app:app 
 
 
