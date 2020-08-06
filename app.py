@@ -2,7 +2,7 @@ from flask import Flask,request,jsonify,abort
 import flask
 app = Flask(__name__)
 @app.route('/favicon.ico')
-def index():
+def fav():
     return "test"
     
 @app.route('/')
