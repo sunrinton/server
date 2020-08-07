@@ -2,7 +2,7 @@ from flask import Flask,request,jsonify,abort
 import flask
 import requests
 import xmltodict
-from konlpy.tag import Komoran
+from konlpy.tag import Kkma
 import platform
 url="https://stdict.korean.go.kr/api/search.do"
 api_key='E6D5AAE591392D05D77F18CE05B339EA'
@@ -26,8 +26,8 @@ def transport():
     if query==None:
         print('매개변수 애러')
         return jsonify(code=400,message="Required parameters are not included")
-        
-    kkma=Komoran()
+
+    kkma=Kkma()
     print(kkma.nouns(query))
     print(isInDict(query))
 
@@ -40,7 +40,7 @@ def isInDict(query='나무'):
 
     return response.get('channel').get('total')!='0'
 print('run Server')
+print(platform.system())
 
-if platform.system()=='Windows':
-    app.run(host='0.0.0.0',port=3000, debug=True) 
+app.run(host='0.0.0.0',port=3000, debug=True) 
 
