@@ -53,7 +53,23 @@ def getInfo():
         print(i)
     print(ran)
     return jsonify(word=ran.get('word'),mean=ran.get('mean'),sentence=ran.get('sentence'))
+@app.route('/quize')
+def quize():
+    data=db['data']
+    used=[0]
+    response=[]
 
+    for i in range(10):
+        ra=0
+        while(ra in used):
+            ra=int(random.uniform(1,data.count()))    
+        print(ra)
+        
+        ran=data.find_one({'index':ra})
+
+        response.append({'word':ran.get('word'),'mean':ran.get('mean'),'sentence':ran.get('sentence')})
+    print(data.count())
+    return jsonify(data=response)
 
     
     
