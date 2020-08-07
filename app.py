@@ -77,7 +77,7 @@ def quiz():
         print(ra)
 
         ran=data.find_one({'index':ra})
-
+        print(data.count())
         response.append({'word':ran.get('word'),'mean':ran.get('mean'),'sentence':ran.get('sentence')})
         used.append(ra)
     print(data.count())
