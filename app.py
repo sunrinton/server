@@ -52,7 +52,7 @@ def search():
     find=data.find_one({'word':re})
     if find==None:
         return jsonify(code=400,data={"message":"일치하는 단어가 없습니다"})
-    return jsonify(code=400,data={'word':find.get('word'),'mean':find.get('mean'),'sentence':find.get('sentence'),})
+    return jsonify(code=200,data={'word':find.get('word'),'mean':find.get('mean'),'sentence':find.get('sentence'),})
 
 
 @app.route('/getOne')
