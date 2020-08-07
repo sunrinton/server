@@ -53,8 +53,8 @@ def getInfo():
         print(i)
     print(ran)
     return jsonify(word=ran.get('word'),mean=ran.get('mean'),sentence=ran.get('sentence'))
-@app.route('/quize')
-def quize():
+@app.route('/quiz')
+def quiz():
     data=db['data']
     used=[0]
     response=[]
@@ -64,7 +64,7 @@ def quize():
         while(ra in used):
             ra=int(random.uniform(1,data.count()))    
         print(ra)
-        
+
         ran=data.find_one({'index':ra})
 
         response.append({'word':ran.get('word'),'mean':ran.get('mean'),'sentence':ran.get('sentence')})
@@ -101,6 +101,6 @@ def login():
 
 
 
-
-app.run(host='0.0.0.0',port=3000, debug=True) 
+if __name__=='__main__':
+    app.run(host='0.0.0.0',port=3000, debug=True) 
 
