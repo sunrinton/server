@@ -6,6 +6,7 @@ from konlpy.tag import Komoran
 import platform
 import pymongo
 from pymongo import MongoClient
+import base64
 
 conn=MongoClient('localhost',27017)
 db=conn['auth']
@@ -43,7 +44,7 @@ def regiser():
     if birth.isdigit()==False:
         return jsonify(message="birth is must type int",code=400)
 
-    auth.insert({'birth':birth, "name":name,"id": user_id,"pw":pw})
+    auth.insert({'birth':birth, "name":name,"id": user_id,"pw":base64.b64encode(pw.encode('euc-kr'))})
     return jsonify(message="complete",code=200)
     
 
@@ -56,17 +57,19 @@ def login():
     data=request.data.decode('utf-8')
     
     
-    user_id=request.args.get['id']
-    pw=request.args.get['pw']
+    user_id=request.args.get('id')
+    pw=request.args.get('pw')
     a=auth.find({'id':user_id})
     for i in a:
         print(i)
-        if i['pw']==pw:
-            return jsonify(code=400,message="seccess")
+        if i['pw']==base64.b64encode(pw.encode('euc-kr')):
+            return jsonify(code=200,message="seccess")
+        else:
+            return jsonify(code=403,message='login fail')
 
     if user_id==None or pw==None:
-        return jsonify(message="Id or Pw was Null",code=406)
-    return jsonify(message="server error",code=500)
+        return jsonify(message="Id or Pw was Null",code=403)
+    return jsonify(message="don't this id ow pw",code=403)
 
 @app.route('/transport')
 def transport():
