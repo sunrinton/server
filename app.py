@@ -3,6 +3,7 @@ import flask
 import requests
 import xmltodict
 from konlpy.tag import Komoran
+import platform
 url="https://stdict.korean.go.kr/api/search.do"
 api_key='E6D5AAE591392D05D77F18CE05B339EA'
 app = Flask(__name__)
@@ -38,5 +39,7 @@ def isInDict(query='나무'):
 
     return response.get('channel').get('total')!='0'
 print('run Server')
-app.run(host='0.0.0.0',port=3000, debug=True) 
+
+if platform.system()=='Windows':
+    app.run(host='0.0.0.0',port=3000, debug=True) 
 
