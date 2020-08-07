@@ -58,7 +58,7 @@ def search():
 @app.route('/getOne')
 def getInfo():
     data=db['data']
-    ran=data.find_one({'index':int(random.random()*10)})
+    ran=data.find_one({'index':int(random.uniform(1,data.count()))})
 
     for i in ran:
         print(i)
