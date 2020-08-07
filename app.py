@@ -2,25 +2,21 @@ from flask import Flask,request,jsonify,abort
 import flask
 import requests
 import xmltodict
-from konlpy.tag import Komoran
 import platform
 import pymongo
 from pymongo import MongoClient
 import base64
+import random
 
 conn=MongoClient('localhost',27017)
-db=conn['auth']
-url="https://stdict.korean.go.kr/api/search.do"
-api_key='E6D5AAE591392D05D77F18CE05B339EA'
+db=conn['sunrinton']
+
+
 app = Flask(__name__)
 
-@app.route('/favicon.ico')
-def fav():
-    return "test"
 
-@app.route('/test')
-def test():
-    return "test"  
+
+
 @app.route('/')
 def index():
     return 'Sunrinton Backend'
@@ -28,7 +24,6 @@ def index():
 @app.route('/register',methods=['POST'])
 def regiser():
     auth=db['auth']
-    
     
     user_id=request.args.get('id')
     pw=request.args.get('pw')
@@ -48,7 +43,16 @@ def regiser():
     return jsonify(message="complete",code=200)
     
 
-    
+@app.route('/getInfo')
+def getInfo():
+    data=db['data']
+    ran=data.find_one({'index':int(random.random()*10)})
+
+    for i in ran:
+        print(i)
+    return 'test'
+
+
     
     
 @app.route('/auth',methods=['POST'])
@@ -71,6 +75,7 @@ def login():
         return jsonify(message="Id or Pw was Null",code=403)
     return jsonify(message="don't this id ow pw",code=403)
 
+
 @app.route('/transport')
 def transport():
     query=request.args.get('q')
@@ -83,14 +88,14 @@ def transport():
 
     return jsonify(code=200,message="Good")
 
+
 def isInDict(query='나무'):
     parameters={'key':api_key,'q':query,'pos':1}
     re=requests.get(url,parameters)
     response=xmltodict.parse(re.text)
 
     return response.get('channel').get('total')!='0'
-print('run Server')
-print(platform.system())
 
-app.run(host='0.0.0.0',port=3000, debug=True) 
+
+# app.run(host='0.0.0.0',port=3000, debug=True) 
 
