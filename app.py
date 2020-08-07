@@ -2,7 +2,7 @@ from flask import Flask,request,jsonify,abort
 import flask
 import requests
 import xmltodict
-from konlpy.tag import Kkma
+from konlpy.tag import Komoran
 import platform
 url="https://stdict.korean.go.kr/api/search.do"
 api_key='E6D5AAE591392D05D77F18CE05B339EA'
@@ -27,8 +27,8 @@ def transport():
         print('매개변수 애러')
         return jsonify(code=400,message="Required parameters are not included")
 
-    kkma=Kkma()
-    print(kkma.nouns(query))
+    ko=Komoran()
+    print(ko.nouns(query))
     print(isInDict(query))
 
     return jsonify(code=200,message="Good")
