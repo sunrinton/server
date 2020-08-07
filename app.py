@@ -97,5 +97,5 @@ def isInDict(query='나무'):
     return response.get('channel').get('total')!='0'
 
 
-# app.run(host='0.0.0.0',port=3000, debug=True) 
+app.run(host='0.0.0.0',port=3000, debug=True) 
 
