@@ -27,15 +27,25 @@ def index():
 @app.route('/register',methods=['POST'])
 def regiser():
     auth=db['auth']
-    json=request.json
-    print(request.form)
-    for i in auth.find({'id':id}):
+    
+    
+    user_id=request.args.get('id')
+    pw=request.args.get('pw')
+    birth=request.args.get('birth')
+    name=request.args.get('name')
+    
+    if user_id==None or pw==None or birth==None or name==None:
+        return jsonify(message='매개변수가 비어있습니다',code=400)
+   
+    for i in auth.find({'id':user_id}):
         return jsonify(message='이미 있는 아이디 입니다',code= 403)   
-    try:
-        auth.insert({'birth':request.form['birth'], "name":request.form['name'],"id":  request.form['id'],"pw":request.form['pw']})
-        return jsonify(message="complete",code=200)
-    except expression as identifier:
-        return jsonify(message="failed",code=400)
+
+    if birth.isdigit()==False:
+        return jsonify(message="birth is must type int",code=400)
+
+    auth.insert({'birth':birth, "name":name,"id": user_id,"pw":pw})
+    return jsonify(message="complete",code=200)
+    
 
     
     
@@ -45,18 +55,16 @@ def login():
     auth=db['auth']
     data=request.data.decode('utf-8')
     
-    user=request.get_json()
-    json=request.json
-    print(json)
-    phone=json['id']
-    pw=json['pw']
-    a=auth.find({'id':id})
+    
+    user_id=request.args.get['id']
+    pw=request.args.get['pw']
+    a=auth.find({'id':user_id})
     for i in a:
         print(i)
         if i['pw']==pw:
             return jsonify(code=400,message="seccess")
 
-    if id==None or pw==None:
+    if user_id==None or pw==None:
         return jsonify(message="Id or Pw was Null",code=406)
     return jsonify(message="server error",code=500)
 
