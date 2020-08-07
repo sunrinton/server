@@ -42,6 +42,17 @@ def regiser():
     auth.insert({'birth':birth, "name":name,"id": user_id,"pw":base64.b64encode(pw.encode('euc-kr'))})
     return jsonify(message="complete",code=200)
 
+@app.route('/search')
+def search():
+    data=db['data']
+    re=request.args.get('text')
+    if re==None:
+        return '매개변수를 채워주세요'
+    print(re)
+    find=data.find_one({'word':re})
+    if find==None:
+        return jsonify(code=400,data={"message":"일치하는 단어가 없습니다"})
+    return jsonify(code=400,data={'word':find.get('word'),'mean':find.get('mean'),'sentence':find.get('sentence'),})
 
 
 @app.route('/getOne')
@@ -68,6 +79,7 @@ def quiz():
         ran=data.find_one({'index':ra})
 
         response.append({'word':ran.get('word'),'mean':ran.get('mean'),'sentence':ran.get('sentence')})
+        used.append(ra)
     print(data.count())
     return jsonify(data=response)
 
@@ -94,11 +106,6 @@ def login():
     if user_id==None or pw==None:
         return jsonify(message="Id or Pw was Null",code=403)
     return jsonify(message="don't this id ow pw",code=403)
-
-
-
-
-
 
 
 if __name__=='__main__':
