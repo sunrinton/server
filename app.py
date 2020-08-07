@@ -74,11 +74,11 @@ def login():
 @app.route('/transport')
 def transport():
     query=request.args.get('q')
-
+    ko=Komoran()
     if query==None:
         print('매개변수 애러')
         return jsonify(code=400,message="Required parameters are not included")
-
+    print(ko.morphs(query))
     
 
     return jsonify(code=200,message="Good")
