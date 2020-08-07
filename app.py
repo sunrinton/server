@@ -40,5 +40,3 @@ def isInDict(query='나무'):
 print('run Server')
 app.run(host='0.0.0.0',port=3000, debug=True) 
 
-
-
