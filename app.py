@@ -23,10 +23,11 @@ def index():
 @app.route('/transport')
 def transport():
     query=request.args.get('q')
-    kkma=Komoran()
     if query==None:
         print('매개변수 애러')
         return jsonify(code=400,message="Required parameters are not included")
+        
+    kkma=Komoran()
     print(kkma.nouns(query))
     print(isInDict(query))
 
