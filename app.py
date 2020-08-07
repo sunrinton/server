@@ -4,7 +4,9 @@ app = Flask(__name__)
 @app.route('/favicon.ico')
 def fav():
     return "test"
-    
+ @app.route('/test')
+def test():
+    return "test"  
 @app.route('/')
 def index():
     return 'Sunrinton Backend'
