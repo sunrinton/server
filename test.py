@@ -12,7 +12,10 @@ with open('./data.csv','r',encoding='utf-8') as fp:
     for i in data:
         print(i)
         n+=1
+        
         line=i.split(',')
+        if line[0]=="":
+            break
         table.insert_one({'index':n,'word':line[0],'mean':line[1],'sentence':line[2][0:-1]})    
         
     fp.close()
