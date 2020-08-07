@@ -41,16 +41,18 @@ def regiser():
 
     auth.insert({'birth':birth, "name":name,"id": user_id,"pw":base64.b64encode(pw.encode('euc-kr'))})
     return jsonify(message="complete",code=200)
-    
 
-@app.route('/getInfo')
+
+
+@app.route('/getOne')
 def getInfo():
     data=db['data']
     ran=data.find_one({'index':int(random.random()*10)})
 
     for i in ran:
         print(i)
-    return 'test'
+    print(ran)
+    return jsonify(word=ran.get('word'),mean=ran.get('mean'),sentence=ran.get('sentence'))
 
 
     
@@ -67,7 +69,9 @@ def login():
     for i in a:
         print(i)
         if i['pw']==base64.b64encode(pw.encode('euc-kr')):
-            return jsonify(code=200,message="seccess")
+            
+            jsons={'name':i['name'],'birth':i['birth']}
+            return jsonify(code=200,message="seccess",data=jsons)
         else:
             return jsonify(code=403,message='login fail')
 
@@ -76,25 +80,10 @@ def login():
     return jsonify(message="don't this id ow pw",code=403)
 
 
-@app.route('/transport')
-def transport():
-    query=request.args.get('q')
-    ko=Komoran()
-    if query==None:
-        print('매개변수 애러')
-        return jsonify(code=400,message="Required parameters are not included")
-    print(ko.morphs(query))
-    
-
-    return jsonify(code=200,message="Good")
 
 
-def isInDict(query='나무'):
-    parameters={'key':api_key,'q':query,'pos':1}
-    re=requests.get(url,parameters)
-    response=xmltodict.parse(re.text)
 
-    return response.get('channel').get('total')!='0'
+
 
 
 app.run(host='0.0.0.0',port=3000, debug=True) 
