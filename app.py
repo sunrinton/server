@@ -10,10 +10,14 @@ app = Flask(__name__)
 @app.route('/favicon.ico')
 def fav():
     return "test"
-    
+
+@app.route('/test')
+def test():
+    return "test"  
 @app.route('/')
 def index():
     return 'Sunrinton Backend'
+
 
 @app.route('/transport')
 def transport():
@@ -35,3 +39,8 @@ def isInDict(query='나무'):
     return response.get('channel').get('total')!='0'
 print('run Server')
 app.run(host='0.0.0.0',port=3000, debug=True) 
+
+if __name__=='main':
+    print('run Server')
+    app.run(host='0.0.0.0',port=3000, debug=True) 
+
